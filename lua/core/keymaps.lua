@@ -4,6 +4,7 @@ vim.g.maplocalleader = " "
 local keymap = vim.keymap
 
 keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Return to normal mode" })
 
 keymap.set("n", ",,", "<cmd>nohl<CR>", { desc = "Clear search highlights" })
 
