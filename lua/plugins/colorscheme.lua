@@ -6,29 +6,32 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd("colorscheme moonfly")
+      vim.cmd [[colorscheme moonfly]]
     end,
   },
   {
     "nyoom-engineering/oxocarbon.nvim",
     enabled = false,
+    lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd("colorscheme oxocarbon")
+      vim.cmd [[colorscheme oxocarbon]]
     end,
   },
   {
     "catppuccin/nvim",
     enabled = false,
     name = "catppuccin",
+    lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd("colorscheme catppuccin")
+      vim.cmd [[colorscheme catppuccin]]
     end,
   },
   {
     "folke/tokyonight.nvim",
-    enabled = true,
+    enabled = false,
+    lazy = false,
     priority = 1000,
     config = function()
       local transparent = false
@@ -70,7 +73,17 @@ return {
         end,
       })
 
-      vim.cmd("colorscheme tokyonight")
+      vim.cmd [[colorscheme tokyonight]]
+    end,
+  },
+  {
+    "tiagovla/tokyodark.nvim",
+    enabled = true,
+    lazy = false,
+    priority = 1000,
+    config = function(_, opts)
+      require("tokyodark").setup(opts)   -- calling setup is optional
+      vim.cmd [[colorscheme tokyodark]]
     end,
   },
 }
