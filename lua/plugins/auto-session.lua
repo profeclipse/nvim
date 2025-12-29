@@ -1,18 +1,19 @@
 return {
   "rmagatti/auto-session",
-  config = function()
-    local auto_session = require("auto-session")
-
-    auto_session.setup({
-      auto_restore = false,
-      suppress_dirs = { "~/", "~/Downloads", "~/Documents", "~/Desktop/" },
-    })
+  lazy = false,
+  opts = {
+    log_level = "error",
+    suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "~/Documents", "/" },
+    auto_restore = false,
+  },
+  config = function(_, opts)
+    auto_session = require("auto-session")
+    auto_session.setup(opts)
 
     vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
-    local keymap = vim.keymap
-
-    keymap.set("n", "<leader>wr", "<cmd>AutoSession restore<CR>", { desc = "Restore session for cwd" })             -- restore last workspace session for current directory
-    keymap.set("n", "<leader>ws", "<cmd>AutoSession save<CR>", { desc = "Save session for auto session root dir" }) -- save workspace session for current working directory
+    local set = vim.keymap.set
+    set("n", "<leader>ws", "<cmd>AutoSession save<cr>", { desc = "Save Session" })
+    set("n", "<leader>wr", "<cmd>AutoSession restore<cr>", { desc = "Restore Session" })
   end,
 }

@@ -1,50 +1,14 @@
 return {
-  {
-    "neovim/nvim-lspconfig",
-    config = function()
-      require("lsp.lua_ls")
-      require("lsp.pyright")
-      require("lsp.marksman")
-      require("lsp.cmake")
-      require("lsp.clangd")
-    end,
+  "hrsh7th/cmp-nvim-lsp",
+  event = { "BufReadPre", "BufNewFile" },
+  dependencies = {
+    { "antosha417/nvim-lsp-file-operations", config = true },
+    { "folke/lazydev.nvim", opts = {} },
   },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    opts = {
-      ensure_installed = {
-        "lua_ls",
-        "pyright",
-      },
-    },
-    dependencies = {
-      {
-        "williamboman/mason.nvim",
-        opts = {
-          ui = {
-            icons = {
-              package_installed = "✓",
-              package_pending = "➜",
-              package_uninstalled = "✗",
-            },
-          },
-        },
-      },
-      "neovim/nvim-lspconfig",
-    },
-  },
-  {
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    opts = {
-      ensure_installed = {
-        "prettier",
-        --"stylua",
-        "black",
-        "isort",
-        "pylint",
-        "clang-format",
-        "cmakelang",
-      },
-    },
-  },
+  config = function()
+    local cmp_nvim_lsp = require("cmp_nvim_lsp")
+    local capabilities = cmp_nvim_lsp.default_capabilities()
+
+    vim.lsp.config("*", { capabilities = capabilities, })
+  end,
 }

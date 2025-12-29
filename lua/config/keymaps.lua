@@ -3,7 +3,6 @@ vim.g.maplocalleader = " "
 
 local keymap = vim.keymap
 
-keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Return to normal mode" })
 
 keymap.set("n", ",,", "<cmd>nohl<CR>", { desc = "Clear search highlights" })
@@ -27,6 +26,12 @@ keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move to left window" })
 keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move to right window" })
 keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move to below window" })
 keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move to above window" })
+
+-- move line(s) up and down
+keymap.set("n", "<A-j>", ":m +1<CR>", { desc = "Move line down" })
+keymap.set("n", "<A-k>", ":m -2<CR>", { desc = "Move line up" })
+keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 -- lsp keymaps
 vim.api.nvim_create_autocmd("LspAttach", {
