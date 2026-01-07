@@ -5,13 +5,18 @@ return {
   },
   config = function()
     opts = {
+      { "telescope", "fzf-native" },
       winopts = {
         preview = {
           default = "bat",
         },
       },
+      file_ignore_patterns = {
+        ".git",
+        "lazy-lock.json",
+      },
     }
-    require("fzf-lua").setup({ "telescope", "fzf-native" }, opts)
+    require("fzf-lua").setup(opts)
 
     vim.keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Fuzzy find files" })
     vim.keymap.set("n", "<leader>fg", "<cmd>FzfLua grep<cr>", { desc = "Fuzzy grep files" })
