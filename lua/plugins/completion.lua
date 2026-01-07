@@ -1,5 +1,5 @@
 return {
-  "Saghen/blink.cmp",
+  "saghen/blink.cmp",
   dependencies = {
     "L3MON4D3/LuaSnip",
     "rafamadriz/friendly-snippets",
@@ -42,6 +42,7 @@ return {
     },
     sources = {
       default = {
+        "lazydev",
         "lsp",
         "path",
         "snippets",
@@ -50,14 +51,14 @@ return {
         "copilot",
       },
       providers = {
-        dictionary = {
-          module = "blink-cmp-dictionary",
-          min_keyword_length = 3,
-        },
         lazydev = {
           name = "LazyDev",
           module = "lazydev.integrations.blink",
           score_offset = 100,
+        },
+        dictionary = {
+          module = "blink-cmp-dictionary",
+          min_keyword_length = 3,
         },
         lsp = {
           score_offset = 90,
