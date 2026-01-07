@@ -25,7 +25,7 @@ return {
       dashboard.button("e", "  > New File", "<cmd>ene<CR>"),
       dashboard.button("SPC ee", "  > Toggle file explorer", "<cmd>NvimTreeToggle<CR>"),
       dashboard.button("SPC ff", "󰱼  > Find File", "<cmd>FzfLua files<CR>"),
-      dashboard.button("SPC fs", "  > Find Word", "<cmd>FzfLua grep<CR>"),
+      dashboard.button("SPC fg", "  > Find Word", "<cmd>FzfLua grep<CR>"),
       dashboard.button("c", "  > NeoVim Configuration", function()
         require("nvim-tree.api").tree.toggle({ path = vim.fn.stdpath("config") })
       end),
