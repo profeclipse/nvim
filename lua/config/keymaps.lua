@@ -1,85 +1,64 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
-local keymap = vim.keymap
+local function mapkey(modes, lhs, rhs, desc, opts)
+  opts = opts or {}
+  opts.desc = desc
+  vim.keymap.set(modes, lhs, rhs, opts)
+end
 
-keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Return to normal mode" })
+mapkey("t", "<Esc><Esc>", "<C-\\><C-n>", "Return to normal mode")
 
-keymap.set("n", ",,", "<cmd>nohl<CR>", { desc = "Clear search highlights" })
+mapkey("n", ",,", "<cmd>nohl<CR>", "Clear search highlights")
 
-keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" })
-keymap.set("n", "<leader>-", "<C-x>", { desc = "Decrement number" })
+mapkey("n", "<leader>+", "<C-a>", "Increment number")
+mapkey("n", "<leader>-", "<C-x>", "Decrement number")
 
 -- window management
-keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" })
-keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" })
-keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })
-keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" })
+mapkey("n", "<leader>sv", "<C-w>v", "Split window vertically")
+mapkey("n", "<leader>sh", "<C-w>s", "Split window horizontally")
+mapkey("n", "<leader>se", "<C-w>=", "Make splits equal size")
+mapkey("n", "<leader>sx", "<cmd>close<CR>", "Close current split")
 
-keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" })
-keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" })
-keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })
-keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })
-keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in a new tab" })
+mapkey("n", "<leader>to", "<cmd>tabnew<CR>", "Open new tab")
+mapkey("n", "<leader>tx", "<cmd>tabclose<CR>", "Close current tab")
+mapkey("n", "<leader>tn", "<cmd>tabn<CR>", "Go to next tab")
+mapkey("n", "<leader>tp", "<cmd>tabp<CR>", "Go to previous tab")
+mapkey("n", "<leader>tf", "<cmd>tabnew %<CR>", "Open current buffer in a new tab")
 
-keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move to left window" })
-keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move to right window" })
-keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move to below window" })
-keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move to above window" })
+mapkey("n", "<C-h>", "<C-w><C-h>", "Move to left window")
+mapkey("n", "<C-l>", "<C-w><C-l>", "Move to right window")
+mapkey("n", "<C-j>", "<C-w><C-j>", "Move to below window")
+mapkey("n", "<C-k>", "<C-w><C-k>", "Move to above window")
 
 -- move line(s) up and down
-keymap.set("n", "<A-j>", ":m +1<CR>", { desc = "Move line down" })
-keymap.set("n", "<A-k>", ":m -2<CR>", { desc = "Move line up" })
-keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
-keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+mapkey("n", "<A-j>", ":m +1<CR>", "Move line down")
+mapkey("n", "<A-k>", ":m -2<CR>", "Move line up")
+mapkey("v", "<A-j>", ":m '>+1<CR>gv=gv", "Move selection down")
+mapkey("v", "<A-k>", ":m '<-2<CR>gv=gv", "Move selection up")
 
 -- lsp keymaps
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-  callback = function(ev)
-    local opts = { buffer = ev.buf, silent = true }
-
-    opts.desc = "Show LSP references"
-    keymap.set("n", "gR", "<cmd>FzfLua lsp_references<cr>", opts)
-
-    opts.desc = "Go to declaration"
-    keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-
-    opts.desc = "Show LSP definition"
-    keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-
-    opts.desc = "Show LSP implementations"
-    keymap.set("n", "gi", "<cmd>FzfLua lsp_implementations<cr>", opts)
-
-    opts.desc = "Show LSP type definitions"
-    keymap.set("n", "gt", "<cmd>FzfLua lsp_typedefs<cr>", opts)
-
-    opts.desc = "Show available code actions"
-    keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-
-    opts.desc = "Smart rename"
-    keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-
-    opts.desc = "Show buffer diagnostics"
-    keymap.set("n", "<leader>D", "<cmd>FzfLua diagnostics_document<cr>", opts)
-
-    opts.desc = "Show line diagnostics"
-    keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
-
-    opts.desc = "Go to previous diagnostic"
-    keymap.set("n", "[d", function()
-      vim.diagnostic.jump({ count = -1, float = true })
-    end, opts)
-
-    opts.desc = "Go to next diagnostic"
-    keymap.set("n", "]d", function()
-      vim.diagnostic.jump({ count = 1, float = true })
-    end, opts)
-
-    opts.desc = "Show documentation for what is under cursor"
-    keymap.set("n", "K", vim.lsp.buf.hover, opts)
-
-    opts.desc = "Restart LSP"
-    keymap.set("n", "<leader>rs", "<cmd>LspRestart<CR>", opts)
-  end,
-})
+-- vim.api.nvim_create_autocmd("LspAttach", {
+--   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+--   callback = function(ev)
+--     local opts = { buffer = ev.buf, silent = true }
+--
+--     mapkey("n", "gR", "<cmd>FzfLua lsp_references<cr>", "Show LSP references", opts)
+--     mapkey("n", "gD", vim.lsp.buf.declaration, "Go to declaration", opts)
+--     mapkey("n", "gd", vim.lsp.buf.definition, "Show LSP definition", opts)
+--     mapkey("n", "gi", "<cmd>FzfLua lsp_implementations<cr>", "Show LSP implementations", opts)
+--     mapkey("n", "gt", "<cmd>FzfLua lsp_typedefs<cr>", "Show LSP type definitions", opts)
+--     mapkey({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Show available code actions", opts)
+--     mapkey("n", "<leader>rn", vim.lsp.buf.rename, "Smart rename", opts)
+--     mapkey("n", "<leader>D", "<cmd>FzfLua diagnostics_document<cr>", "Show buffer diagnostics", opts)
+--     mapkey("n", "<leader>d", vim.diagnostic.open_float, "Show line diagnostics", opts)
+--     mapkey("n", "[d", function()
+--       vim.diagnostic.jump({ count = -1, float = true })
+--     end, "Go to previous diagnostic", opts)
+--     mapkey("n", "]d", function()
+--       vim.diagnostic.jump({ count = 1, float = true })
+--     end, "Go to next diagnostic", opts)
+--     mapkey("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor", opts)
+--     mapkey("n", "<leader>rs", "<cmd>LspRestart<CR>", "Restart LSP", opts)
+--   end,
+-- })
