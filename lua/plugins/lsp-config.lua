@@ -38,31 +38,28 @@ return {
             })
           end
 
-          local function mapkey(modes, lhs, rhs, desc, opts)
-            opts = opts or {}
-            opts.desc = desc
+          local function mapkey(modes, lhs, rhs, desc)
+            local opts = { buffer = event.buf, silent = true, desc = desc }
             vim.keymap.set(modes, lhs, rhs, opts)
           end
 
-          local opts = { buffer = event.buf, silent = true }
-
-          mapkey("n", "gR", "<cmd>FzfLua lsp_references<cr>", "Show LSP references", opts)
-          mapkey("n", "gD", vim.lsp.buf.declaration, "Go to declaration", opts)
-          mapkey("n", "gd", vim.lsp.buf.definition, "Show LSP definition", opts)
-          mapkey("n", "gi", "<cmd>FzfLua lsp_implementations<cr>", "Show LSP implementations", opts)
-          mapkey("n", "gt", "<cmd>FzfLua lsp_typedefs<cr>", "Show LSP type definitions", opts)
-          mapkey({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Show available code actions", opts)
-          mapkey("n", "<leader>rn", vim.lsp.buf.rename, "Smart rename", opts)
-          mapkey("n", "<leader>D", "<cmd>FzfLua diagnostics_document<cr>", "Show buffer diagnostics", opts)
-          mapkey("n", "<leader>d", vim.diagnostic.open_float, "Show line diagnostics", opts)
+          mapkey("n", "gR", "<cmd>FzfLua lsp_references<cr>", "Show LSP references")
+          mapkey("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
+          mapkey("n", "gd", vim.lsp.buf.definition, "Show LSP definition")
+          mapkey("n", "gi", "<cmd>FzfLua lsp_implementations<cr>", "Show LSP implementations")
+          mapkey("n", "gt", "<cmd>FzfLua lsp_typedefs<cr>", "Show LSP type definitions")
+          mapkey({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Show available code actions")
+          mapkey("n", "<leader>rn", vim.lsp.buf.rename, "Smart rename")
+          mapkey("n", "<leader>D", "<cmd>FzfLua diagnostics_document<cr>", "Show buffer diagnostics")
+          mapkey("n", "<leader>d", vim.diagnostic.open_float, "Show line diagnostics")
           mapkey("n", "[d", function()
             vim.diagnostic.jump({ count = -1, float = true })
-          end, "Go to previous diagnostic", opts)
+          end, "Go to previous diagnostic")
           mapkey("n", "]d", function()
             vim.diagnostic.jump({ count = 1, float = true })
-          end, "Go to next diagnostic", opts)
-          mapkey("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor", opts)
-          mapkey("n", "<leader>rs", "<cmd>LspRestart<CR>", "Restart LSP", opts)
+          end, "Go to next diagnostic")
+          mapkey("n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor")
+          mapkey("n", "<leader>rs", "<cmd>LspRestart<CR>", "Restart LSP")
         end,
       })
 
