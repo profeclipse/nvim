@@ -32,6 +32,10 @@ return {
       },
     })
 
+    require("notify").setup({
+      timeout = 1000,
+    })
+
     vim.keymap.set("n", "<leader>nl", "<cmd>Noice last<cr>", { desc = "Show last message" })
     vim.keymap.set("n", "<leader>nh", "<cmd>Noice history<cr>", { desc = "Show message history" })
     vim.keymap.set("n", "<leader>nd", "<cmd>Noice dismiss<cr>", { desc = "Dismiss all visible messages" })
